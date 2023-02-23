@@ -2,7 +2,7 @@
 #include<math.h>
 #include<stdlib.h>
 
-//Circular linked list in C
+//linked list in C
 struct node
 {
     int info;
