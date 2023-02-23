@@ -2,7 +2,7 @@
 #include<math.h>
 #include<stdlib.h>
 
-//linked list in C
+//Circular linked list in C
 struct node
 {
     int info;
@@ -74,7 +74,7 @@ void deletion(){
     printf("Enter the number of which the node is to be deleted\n");
     scanf("%d",&key);
     if(nodeptr==NULL){
-        printf("linkeda list is empty");
+        printf("linked list is empty");
     }
     else{
         ptr=nodeptr;

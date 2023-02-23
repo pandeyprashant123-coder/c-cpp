@@ -2,11 +2,12 @@
 #include<math.h>
 #include<stdlib.h>
 
-//linked list in C
+//Doubly linked list in C
 struct node
 {
     int info;
     struct node *next;
+    struct node *prev;
 };
 struct node *head=NULL,*ptr,*newptr;
 
@@ -16,6 +17,7 @@ struct node *getnode(){
     printf("Enter the data: ");
     scanf("%d",&newnode->info);
     newnode->next=NULL;
+    newnode->prev=NULL;
     return newnode;
 }
 
@@ -30,6 +32,7 @@ void create()
             head=newptr;
         }else{
             last->next = newptr;
+            newptr->prev = last;
         }
         last = newptr;
         printf("Enter y to add and n for stop add: ");
@@ -53,6 +56,7 @@ void display(){
 void insertF(){
     newptr = getnode();
     newptr->next=head;
+    head->prev=newptr;
     head=newptr;
 }
 void insertL(){
@@ -63,6 +67,7 @@ void insertL(){
         ptr=ptr->next;
     }
     ptr->next=newptr;
+    newptr->prev=ptr;
 }
 void insertAnywhere(){
     int key;
@@ -78,6 +83,8 @@ void insertAnywhere(){
         printf("node doesnot exists");
     else{
         newptr->next=ptr->next;
+        newptr->prev=ptr;
+        (ptr->next)->prev=newptr;
         ptr->next=newptr;
     }
 }
@@ -89,20 +96,19 @@ void deletionF(){
         ptr=head;
         head=ptr->next;
         free(ptr);
+        head->prev=NULL;
     }
 }
 void deletionL(){
-    struct node *prevptr;
     if(head==NULL)
         printf("linked list is empty");
     else{
         ptr=head;
         while (ptr->next!=NULL)
         {
-            prevptr=ptr;
             ptr=ptr->next;
         }
-        prevptr->next=NULL;
+        (ptr->prev)->next=NULL;
         free(ptr);
     }
 }
@@ -110,7 +116,7 @@ void deletionL(){
 void deletionAnywhere(){
     struct node *prevptr;
     int key;
-    printf("Enter the number to be deleted\n");
+    printf("Enter the number of which the node is to be deleted\n");
     scanf("%d",&key);
     if(head==NULL){
         printf("linkeda list is empty");
@@ -119,14 +125,14 @@ void deletionAnywhere(){
         ptr=head;
         while(ptr!=NULL && ptr->info!=key)
         {
-            prevptr=ptr;
             ptr=ptr->next;
         }
         if(ptr==NULL){
             printf("node doesnot exists");
         }
         else{
-            prevptr->next=ptr->next;
+            (ptr->prev)->next =ptr->next;
+            (ptr->next)->prev=ptr->prev;
             free(ptr);  
             printf("freed..");
         }
